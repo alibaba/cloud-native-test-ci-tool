@@ -1,0 +1,94 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# action.yml
+name: 'Cloud Native CI Action'
+description: ''
+inputs:
+  action: # id of input
+    description: 'action'
+    required: true
+    default: ''
+  test-version: # id of input
+    description: 'test version'
+    required: true
+    default: ''
+  ask-config:  # id of input
+    description: 'ask config'
+    required: true
+    default: ''
+  docker-repo-username: # id of input
+    description: 'docker repo username'
+    required: false
+    default: ''
+  docker-repo-password: # id of input
+    description: 'docker repo password'
+    required: false
+    default: ''
+  chart-git: # id of input
+    description: 'chart git'
+    required: false
+    default: ''
+  chart-branch: # id of input
+    description: 'chart branch'
+    required: false
+    default: ''
+  chart-path: # id of input
+    description: 'chart path'
+    required: false
+    default: './'
+  test-code-git: # id of input
+    description: 'test code git'
+    required: false
+    default: ''
+  test-code-branch: # id of input
+    description: 'test code branch'
+    required: false
+    default: ''
+  test-code-path: # id of input
+    description: 'test code path'
+    required: false
+    default: ''
+  test-cmd: # id of input
+    description: 'test cmd'
+    required: false
+    default: 'mvn -B test'
+  job-id: # id of input
+    description: 'job id'
+    required: true
+    default: ''
+  helm-values: # id of input
+    description: 'helm values'
+    required: true
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.action }}
+    - ${{ inputs.test-version }}
+    - ${{ inputs.ask-config }}
+    - ${{ inputs.docker-repo-username }}
+    - ${{ inputs.docker-repo-password }}
+    - ${{ inputs.chart-git }}
+    - ${{ inputs.chart-branch }}
+    - ${{ inputs.chart-path }}
+    - ${{ inputs.test-code-git }}
+    - ${{ inputs.test-code-branch }}
+    - ${{ inputs.test-code-path }}
+    - ${{ inputs.test-cmd }}
+    - ${{ inputs.job-id }}
+    - ${{ inputs.helm-values }}
