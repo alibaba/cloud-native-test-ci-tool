@@ -215,7 +215,7 @@ if [ ${ACTION} == "test" ]; then
         if [ ! -z "$is_mvn_cmd" ]; then
           mkdir -p test_report
           cd test_report
-          kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. .
+          kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
           rm -rf *.txt
           ls
           cd -
