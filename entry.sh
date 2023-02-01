@@ -210,7 +210,7 @@ if [ ${ACTION} == "test" ]; then
       echo waiting for test-${ns} test done...
       sleep 5
       pod_status=`kubectl get pod test-${ns} --template={{.status.phase}} -n ${ns}`
-      test_done=`kubectl exec test-${ns} -n ${ns} -- /bin/bash  | ls /root | grep testdone`
+      test_done=`kubectl exec -it test-${ns} -n ${ns} -- ls /root | grep testdone`
       if [ ! -z "$test_done" ]; then
         echo "Test status: test done"
         if [ ! -z "$is_mvn_cmd" ]; then
