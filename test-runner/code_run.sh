@@ -25,4 +25,8 @@ git clone $CODE -b $BRANCH code
 cd code
 cd $CODE_PATH
 $CMD
-exit $?
+res=$?
+# wait for result collect
+touch /root/testdone
+sleep 60
+exit $res

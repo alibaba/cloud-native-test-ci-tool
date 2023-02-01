@@ -125,7 +125,7 @@ if [ ${ACTION} == "deploy" ]; then
         echo "env ${app} deploy timeout..."
         exit 1
       fi
-      echo "wait for env ${app} ready..."
+      echo "waiting for env ${app} ready..."
       sleep 5
       status=`vela status ${app} -n ${app}`
       stopped=`echo $status | grep "not found"`
@@ -146,8 +146,6 @@ metadata:
   namespace: ${ns}
 spec:
   restartPolicy: Never
-  imagePullSecrets:
-    - name: onetest-regcred
   containers:
   - name: test-${ns}
     image: cloudnativeofalibabacloud/test-runner:v0.0.1
@@ -209,9 +207,22 @@ if [ ${ACTION} == "test" ]; then
 
   while [ "${pod_status}" == "Pending" ] || [ "${pod_status}" == "Running" ]
   do
-      echo wait for test-${ns} test done...
+      echo waiting for test-${ns} test done...
       sleep 5
       pod_status=`kubectl get pod test-${ns} --template={{.status.phase}} -n ${ns}`
+      test_done=`kubectl exec test-${ns} -n ${ns} -- /bin/bash  | ls /root | grep testdone`
+      if [ ! -z "$test_done" ]; then
+        if [ ! -z "$is_mvn_cmd" ]; then
+          mkdir -p test_report
+          cd test_report
+          kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. .
+          rm -rf *.txt
+          ls
+          cd -
+          pwd
+          ls
+        fi
+      fi
   done
 
   kubectl logs test-${ns} -n ${ns}
