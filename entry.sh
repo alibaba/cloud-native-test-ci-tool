@@ -212,7 +212,9 @@ if [ ${ACTION} == "test" ]; then
       pod_status=`kubectl get pod test-${ns} --template={{.status.phase}} -n ${ns}`
       test_done=`kubectl exec test-${ns} -n ${ns} -- /bin/bash  | ls /root | grep testdone`
       if [ ! -z "$test_done" ]; then
+        echo "Test status: test done"
         if [ ! -z "$is_mvn_cmd" ]; then
+          echo "Copy test reports"
           mkdir -p test_report
           cd test_report
           kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
@@ -222,10 +224,12 @@ if [ ${ACTION} == "test" ]; then
           pwd
           ls
         fi
+      else
+        echo "Test status: testing..."
       fi
   done
 
-  kubectl logs test-${ns} -n ${ns}
+  #kubectl logs test-${ns} -n ${ns}
 
   exit_code=`kubectl get pod test-${ns} --output="jsonpath={.status.containerStatuses[].state.terminated.exitCode}" -n ${ns}`
   kubectl delete pod test-${ns} -n ${ns}
