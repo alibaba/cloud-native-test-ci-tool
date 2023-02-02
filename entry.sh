@@ -220,12 +220,7 @@ if [ ${ACTION} == "test" ]; then
           kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
           rm -rf *.txt
           ls
-          cd -
-          pwd
-          ls
         fi
-      else
-        echo "Test status: testing..."
       fi
   done
 
