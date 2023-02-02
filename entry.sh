@@ -326,9 +326,3 @@ if [ ${ACTION} == "try" ]; then
 fi
 
 
-
-#pods=$(kubectl get pods --all-namespaces)
-#echo "pods<<EOF" >> $GITHUB_OUTPUT
-#echo "${pods}" >> $GITHUB_OUTPUT
-#echo "EOF" >> $GITHUB_OUTPUT
-
