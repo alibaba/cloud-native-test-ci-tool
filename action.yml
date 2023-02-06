@@ -74,6 +74,14 @@ inputs:
     description: 'helm values'
     required: true
     default: ''
+  source-code-git: # id of input
+    description: 'source code git'
+    required: true
+    default: ''
+  source-code-branch: # id of input
+    description: 'source code branch'
+    required: true
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -92,3 +100,5 @@ runs:
     - ${{ inputs.test-cmd }}
     - ${{ inputs.job-id }}
     - ${{ inputs.helm-values }}
+    - ${{ inputs.source-code-git }}
+    - ${{ inputs.source-code-branch }}
