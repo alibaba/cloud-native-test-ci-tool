@@ -25,6 +25,16 @@ RUN chmod 755 /root/code_run.sh
 RUN tar -xvf /root/apache-maven-3.8.7-bin.tar.gz -C /opt/
 
 RUN yum install unzip curl git -y
+RUN yum install -y java-1.8.0-openjdk-devel
+
+
+COPY APP-META/docker-config/onetest.collector.tar.gz /root/onetest.collector.tar.gz
 
 WORKDIR /root
-CMD ["/bin/bash", "-c", "./code_run.sh"]
+
+RUN tar -xvf /root/onetest.collector.tar.gz -C /root/ && \
+    rm -rf /root/onetest.collector.tar.gz
+
+
+WORKDIR /root
+CMD ["/bin/bash", "-c", "source code_run.sh"]
