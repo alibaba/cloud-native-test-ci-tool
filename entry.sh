@@ -229,9 +229,12 @@ if [ ${ACTION} == "test" ]; then
             kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
             rm -rf *.txt
             ls
-            kubectl cp test-${ns}:/root/onetest/jacoco_coverage/code/coverageReport.zip . -n ${ns}
+            kubectl cp test-${ns}:/root/onetest/jacoco_coverage/code/coverageReport.zip coverageReport.zip -n ${ns}
             ls
             cd -
+            unzip coverageReport.zip
+            ls
+            pwd
           fi
         fi
       fi
