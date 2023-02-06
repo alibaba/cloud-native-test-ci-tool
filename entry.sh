@@ -30,6 +30,8 @@ TEST_CODE_PATH=${11}
 TEST_CMD_BASE=${12}
 JOB_INDEX=${13}
 HELM_VALUES=${14}
+SOURCE_CODE_GIT=${15}
+SOURCE_CODE_BRANCH=${16}
 
 export VERSION
 export CHART_GIT
@@ -42,6 +44,8 @@ export TEST_CODE_GIT
 export TEST_CODE_BRANCH
 export TEST_CODE_PATH
 export YAML_VALUES=`echo "${HELM_VALUES}" | sed -s 's/^/          /g'`
+export SOURCE_CODE_GIT
+export SOURCE_CODE_BRANCH
 
 echo "Start test version: ${GITHUB_REPOSITORY}@${VERSION}"
 
@@ -148,7 +152,7 @@ spec:
   restartPolicy: Never
   containers:
   - name: test-${ns}
-    image: cloudnativeofalibabacloud/test-runner:v0.0.1
+    image: cn-cicd-repo-registry.cn-hangzhou.cr.aliyuncs.com/cicd/test-runner:v0.0.8
     env:
     - name: CODE
       value: ${TEST_CODE_GIT}
@@ -160,6 +164,10 @@ spec:
       value: ${TEST_CMD}
     - name: ALL_IP
       value: ${ALL_IP}
+    - name: SOURCE_CODE
+      value: ${SOURCE_CODE_GIT}
+    - name: SOURCE_BRANCH
+      value: ${SOURCE_CODE_BRANCH}
 '
 
 echo -e "${TEST_POD_TEMPLATE}" > ./testpod.yaml
@@ -221,7 +229,12 @@ if [ ${ACTION} == "test" ]; then
             kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
             rm -rf *.txt
             ls
+            kubectl cp test-${ns}:/root/onetest/jacoco_coverage/code/coverageReport.zip coverageReport.zip -n ${ns}
+            ls
             cd -
+            unzip coverageReport.zip
+            ls
+            pwd
           fi
         fi
       fi
