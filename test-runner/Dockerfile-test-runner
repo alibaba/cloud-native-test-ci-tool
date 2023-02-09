@@ -23,6 +23,7 @@ COPY code_run.sh /root/code_run.sh
 RUN wget https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
 RUN chmod 755 /root/code_run.sh
 RUN tar -xvf /root/apache-maven-3.8.7-bin.tar.gz -C /opt/
+COPY settings.xml /opt/apache-maven-3.8.7/conf
 
 RUN yum install unzip curl git epel-release gettext jq wget psmisc -y
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
