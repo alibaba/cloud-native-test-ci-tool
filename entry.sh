@@ -227,7 +227,7 @@ if [ ${ACTION} == "test" ]; then
       fi
   done
 
-  #kubectl logs test-${ns} -n ${ns}
+  kubectl logs test-${ns} -n ${ns} > testlog.txt
 
   exit_code=`kubectl get pod test-${ns} --output="jsonpath={.status.containerStatuses[].state.terminated.exitCode}" -n ${ns}`
   kubectl delete pod test-${ns} -n ${ns}
