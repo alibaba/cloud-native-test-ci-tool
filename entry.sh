@@ -223,6 +223,7 @@ if [ ${ACTION} == "test" ]; then
         if [ ! -z "$is_mvn_cmd" ]; then
           if [ ! -d "./test_report" ]; then
             echo "Copy test reports"
+            kubectl cp test-${ns}:/root/testlog.txt testlog.txt -n ${ns}
             mkdir -p test_report
             cd test_report
             kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
@@ -233,8 +234,6 @@ if [ ${ACTION} == "test" ]; then
         fi
       fi
   done
-
-  kubectl logs test-${ns} -n ${ns} > testlog.txt
 
   exit_code=`kubectl get pod test-${ns} --output="jsonpath={.status.containerStatuses[].state.terminated.exitCode}" -n ${ns}`
   kubectl delete pod test-${ns} -n ${ns}
