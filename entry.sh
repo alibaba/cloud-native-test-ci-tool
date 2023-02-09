@@ -149,6 +149,13 @@ spec:
   containers:
   - name: test-${ns}
     image: cloudnativeofalibabacloud/test-runner:v0.0.1
+    resources:
+          limits:
+            cpu: "8"
+            memory: "8Gi"
+          requests:
+            cpu: "8"
+            memory: "8Gi"
     env:
     - name: CODE
       value: ${TEST_CODE_GIT}
