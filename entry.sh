@@ -223,10 +223,10 @@ if [ ${ACTION} == "test" ]; then
         if [ ! -z "$is_mvn_cmd" ]; then
           if [ ! -d "./test_report" ]; then
             echo "Copy test reports"
-            kubectl cp test-${ns}:/root/testlog.txt testlog.txt -n ${ns}
+            kubectl cp --retries=10 test-${ns}:/root/testlog.txt testlog.txt -n ${ns}
             mkdir -p test_report
             cd test_report
-            kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
+            kubectl cp --retries=10 test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
             rm -rf *.txt
             ls
             cd -
