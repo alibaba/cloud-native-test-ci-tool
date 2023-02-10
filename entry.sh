@@ -149,6 +149,13 @@ spec:
   containers:
   - name: test-${ns}
     image: cloudnativeofalibabacloud/test-runner:v0.0.1
+    resources:
+          limits:
+            cpu: "8"
+            memory: "8Gi"
+          requests:
+            cpu: "8"
+            memory: "8Gi"
     env:
     - name: CODE
       value: ${TEST_CODE_GIT}
@@ -216,6 +223,7 @@ if [ ${ACTION} == "test" ]; then
         if [ ! -z "$is_mvn_cmd" ]; then
           if [ ! -d "./test_report" ]; then
             echo "Copy test reports"
+            kubectl cp test-${ns}:/root/testlog.txt testlog.txt -n ${ns}
             mkdir -p test_report
             cd test_report
             kubectl cp test-${ns}:/root/code/${TEST_CODE_PATH}/target/surefire-reports/. . -n ${ns}
@@ -226,8 +234,6 @@ if [ ${ACTION} == "test" ]; then
         fi
       fi
   done
-
-  #kubectl logs test-${ns} -n ${ns}
 
   exit_code=`kubectl get pod test-${ns} --output="jsonpath={.status.containerStatuses[].state.terminated.exitCode}" -n ${ns}`
   kubectl delete pod test-${ns} -n ${ns}

@@ -24,7 +24,7 @@ git clone $CODE -b $BRANCH code
 
 cd code
 cd $CODE_PATH
-$CMD
+$CMD > /root/testlog.txt
 res=$?
 # wait for result collect
 touch /root/testdone
