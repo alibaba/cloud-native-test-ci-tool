@@ -72,19 +72,7 @@ spec:
         secretRef: \047\047
         url: ${CHART_GIT}
         values:
-${YAML_VALUES}
-          nameserver:
-            image:
-              repository: "cn-cicd-repo-registry.cn-hangzhou.cr.aliyuncs.com/cicd/rocketmq"
-              tag: ${VERSION}
-          broker:
-            image:
-              repository: "cn-cicd-repo-registry.cn-hangzhou.cr.aliyuncs.com/cicd/rocketmq"
-              tag: ${VERSION}
-          proxy:
-            image:
-              repository: "cn-cicd-repo-registry.cn-hangzhou.cr.aliyuncs.com/cicd/rocketmq"
-              tag: ${VERSION}'
+${YAML_VALUES}'
 
 echo -e "${VELA_APP_TEMPLATE}" > ./velaapp.yaml
 sed -i '1d' ./velaapp.yaml
@@ -100,11 +88,6 @@ if [ ${ACTION} == "deploy" ]; then
   echo ${VERSION}: ${env_uuid} deploy start
 
   vela env init ${env_uuid} --namespace ${env_uuid}
-
-  kubectl create secret --namespace=${env_uuid} docker-registry onetest-regcred \
-    --docker-server=cn-cicd-repo-registry.cn-hangzhou.cr.aliyuncs.com \
-    --docker-username=${DOCKER_REPO_USERNAME} \
-    --docker-password=${DOCKER_REPO_PASSWORD}
 
   export VELA_APP_NAME=${env_uuid}
   envsubst < ./velaapp.yaml > velaapp-${REPO_NAME}.yaml
