@@ -1,11 +1,12 @@
 # cloud-native-test-ci-tool
 
-This action use Kubernetes in GitHub action workflow to deploy APP and execute E2E test.
+This action uses Helm and KubeVela to deploy applications and execute E2E tests in Kubernetes.
+KubeVela needs to be installed in Kubernetes before use.
 
 # Usage
 
 <!-- start usage -->
-## Use helm chart to deploy your all in Kubernetes
+## Use helm chart to deploy your app in Kubernetes
 ```yaml
   - uses: alibaba/cloud-native-test-ci-tool@v1
     name: Deploy
